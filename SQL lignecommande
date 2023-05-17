@@ -1,2 +1,9 @@
-SELECT nom_personnage
-FROM personnage
+-- Lire la base de donnée
+SELECT nom_personnage   -- selectionne le champ nom_personnage
+FROM personnage         -- dans le tableau personnage
+
+-- lire des données qui finissent par um
+SELECT * 
+FROM lieu
+WHERE nom_lieu 
+LIKE "%um";
