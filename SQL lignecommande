@@ -1,0 +1,2 @@
+SELECT nom_personnage
+FROM personnage
