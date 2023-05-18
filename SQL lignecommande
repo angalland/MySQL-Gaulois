@@ -31,3 +31,31 @@ INNER JOIN personnage
     ON specialite.id_specialite = personnage.id_specialite
 GROUP BY nom_specialite
 ORDER BY COUNT(id_personnage) DESC;
+
+-- Nom, date et lieu des batailles, classées de la plus récente à la plus ancienne (dates affichées au format jj/mm/aaaa)
+SELECT nom_bataille, DATE_FORMAT(date_bataille, "%d/%m/%Y"), nom_lieu
+FROM bataille
+INNER JOIN lieu
+ 	ON bataille.id_lieu = lieu.id_lieu
+ORDER BY date_bataille DESC;
+
+-- Nom des potions + coût de réalisation de la potion (trié par coût décroissant).
+SELECT nom_potion , SUM(cout_ingredient*qte) AS cout
+FROM composer
+INNER JOIN ingredient
+	ON composer.id_ingredient = ingredient.id_ingredient
+INNER JOIN potion 
+	ON composer.id_potion = potion.id_potion
+GROUP BY potion.nom_potion;
+
+-- Nom des ingrédients + coût + quantité de chaque ingrédient qui composent la potion 'Santé'.
+SELECT  nom_potion,nom_ingredient, SUM(cout_ingredient*qte) AS cout_potion, qte
+FROM composer
+INNER JOIN ingredient
+	ON composer.id_ingredient = ingredient.id_ingredient
+INNER JOIN potion
+	ON composer.id_potion = potion.id_potion
+WHERE composer.id_potion = 3
+GROUP BY nom_ingredient, qte;
+
+-- . Nom du ou des personnages qui ont pris le plus de casques dans la bataille 'Bataille du village gaulois'
