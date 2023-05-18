@@ -7,3 +7,10 @@ SELECT *
 FROM lieu
 WHERE nom_lieu 
 LIKE "%um";
+
+-- Lire des données situés dans plusieurs tableau tout en utilisant la fonction count et en supprimant les doublons
+SELECT nom_lieu, COUNT(id_personnage)
+FROM lieu
+INNER JOIN personnage
+	ON lieu.id_lieu = personnage.id_lieu
+GROUP BY nom_lieu;
