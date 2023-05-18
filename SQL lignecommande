@@ -14,3 +14,12 @@ FROM lieu
 INNER JOIN personnage
 	ON lieu.id_lieu = personnage.id_lieu
 GROUP BY nom_lieu;
+
+-- . Nom des personnages + spécialité + adresse et lieu d'habitation, triés par lieu puis par nom de personnage.
+SELECT DISTINCT nom_personnage, nom_specialite, adresse_personnage, nom_lieu
+FROM lieu
+INNER JOIN personnage
+	ON lieu.id_lieu = personnage.id_lieu
+INNER JOIN specialite
+	ON specialite.id_specialite = personnage.id_specialite
+ORDER BY nom_lieu, nom_personnage;
