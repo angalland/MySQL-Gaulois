@@ -97,3 +97,10 @@ INNER JOIN Potion
 INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
 WHERE composer.id_ingredient = 24;
+
+--  Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois.
+SELECT MAX(nom_lieu) AS 'lieu ayant le plus de personnage apres le village gaulois'
+FROM personnage
+INNER JOIN lieu
+	ON personnage.id_lieu  = lieu.id_lieu
+WHERE personnage.id_lieu > 1;
