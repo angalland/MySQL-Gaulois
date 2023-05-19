@@ -1,6 +1,6 @@
 -- Lire la base de donnée
 SELECT nom_personnage   -- selectionne le champ nom_personnage
-FROM personnage         -- dans le tableau personnage
+FROM personnage;         -- dans le tableau personnage
 
 -- lire des données qui finissent par um
 SELECT * 
@@ -63,7 +63,7 @@ SELECT nom_personnage
 FROM prendre_casque
 INNER JOIN personnage
 	ON prendre_casque.id_personnage = personnage.id_personnage
-WHERE id_bataille = 1 
+WHERE id_bataille = 1;
 
 -- . Nom des personnages et leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
 SELECT nom_personnage, dose_boire
@@ -89,3 +89,11 @@ INNER JOIN casque
 GROUP BY type_casque.nom_type_casque
 ORDER BY cout DESC;
 
+-- . Nom des potions dont un des ingrédients est le poisson frais.
+SELECT potion.nom_potion
+FROM composer
+INNER JOIN Potion
+	ON composer.id_potion = potion.id_potion
+INNER JOIN ingredient
+	ON composer.id_ingredient = ingredient.id_ingredient
+WHERE composer.id_ingredient = 24;
