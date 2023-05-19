@@ -132,6 +132,6 @@ INSERT INTO personnage (`id_personnage`, `nom_personnage`, `adresse_personnage`,
 VALUES
 			(46, 'Textix', 'SDF', 'indisponible.jpg', 1, 11);
 
-INSERT INTO personnage ('nom_personnage', 'id_specialite', 'adresse_personnage', 'id_lieu')
-VALUES 
-		('Textix2', 12, 'ferme Hantassion', 6);
+INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
+ VALUES 
+		 ( 'Textix3', 'ferme Hantassion', 6, 12);
