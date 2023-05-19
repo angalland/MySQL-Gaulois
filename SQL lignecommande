@@ -3,7 +3,7 @@ SELECT nom_personnage   -- selectionne le champ nom_personnage
 FROM personnage;         -- dans le tableau personnage
 
 -- lire des données qui finissent par um
-SELECT * 
+SELECT nom_lieu
 FROM lieu
 WHERE nom_lieu 
 LIKE "%um";
@@ -16,7 +16,7 @@ INNER JOIN personnage
 GROUP BY nom_lieu;
 
 -- . Nom des personnages + spécialité + adresse et lieu d'habitation, triés par lieu puis par nom de personnage.
-SELECT DISTINCT nom_personnage, nom_specialite, adresse_personnage, nom_lieu
+SELECT DISTINCT nom_lieu, nom_personnage, nom_specialite, adresse_personnage 
 FROM lieu
 INNER JOIN personnage
 	ON lieu.id_lieu = personnage.id_lieu
@@ -33,7 +33,7 @@ GROUP BY nom_specialite
 ORDER BY COUNT(id_personnage) DESC;
 
 -- Nom, date et lieu des batailles, classées de la plus récente à la plus ancienne (dates affichées au format jj/mm/aaaa)
-SELECT nom_bataille, DATE_FORMAT(date_bataille, "%d/%m/%Y"), nom_lieu
+SELECT DATE_FORMAT(date_bataille, "%d/%m/%Y") AS 'Date bataille', nom_bataille, nom_lieu
 FROM bataille
 INNER JOIN lieu
  	ON bataille.id_lieu = lieu.id_lieu
@@ -46,7 +46,8 @@ INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
 INNER JOIN potion 
 	ON composer.id_potion = potion.id_potion
-GROUP BY potion.nom_potion;
+GROUP BY potion.nom_potion
+ORDER BY cout DESC;
 
 -- Nom des ingrédients + coût + quantité de chaque ingrédient qui composent la potion 'Santé'.
 SELECT  nom_potion,nom_ingredient, SUM(cout_ingredient*qte) AS cout_potion, qte
@@ -59,11 +60,13 @@ WHERE composer.id_potion = 3
 GROUP BY nom_ingredient, qte;
 
 -- . Nom du ou des personnages qui ont pris le plus de casques dans la bataille 'Bataille du village gaulois'
-SELECT nom_personnage
+SELECT MAX(nom_personnage)
 FROM prendre_casque
 INNER JOIN personnage
 	ON prendre_casque.id_personnage = personnage.id_personnage
-WHERE id_bataille = 1;
+INNER JOIN bataille
+	ON prendre_casque.id_bataille = bataille.id_bataille
+WHERE prendre_casque.id_bataille = (bataille.nom_bataille = 'Bataille du village gaulois');
 
 -- . Nom des personnages et leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
 SELECT nom_personnage, dose_boire
