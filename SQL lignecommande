@@ -160,7 +160,19 @@ DELETE FROM casque
 -- WHERE id_casque IN (id_type_casque = 2 AND id_casque[prendre_casque] IS NULL);
 WHERE id_casque IN (21, 22, 23);
 
--- Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
+-- D Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
 UPDATE personnage
 SET adresse_personnage = 'Prison', id_lieu = 9
 WHERE nom_personnage = 'Zérozérosix';
+
+-- E La potion 'Soupe' ne doit plus contenir de persil.
+SELECT id_potion
+FROM potion
+WHERE nom_potion = 'Soupe';
+
+SELECT id_ingredient
+FROM ingredient
+WHERE nom_ingredient = 'Persil';
+
+DELETE FROM composer
+WHERE id_potion = 9 AND id_ingredient = 19;
