@@ -103,7 +103,7 @@ SELECT MAX(nom_lieu) AS 'lieu ayant le plus de personnage apres le village gaulo
 FROM personnage
 INNER JOIN lieu
 	ON personnage.id_lieu  = lieu.id_lieu
-WHERE personnage.id_lieu > 1;
+WHERE personnage.id_lieu > (lieu.id_lieu = (lieu.nom_lieu = 'Village gaulois'));
 
 -- Nom des personnages qui n''ont jamais bu aucune potion
 SELECT nom_personnage
