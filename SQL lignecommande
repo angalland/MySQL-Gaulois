@@ -112,3 +112,14 @@ LEFT JOIN boire
 	ON personnage.id_personnage = boire.id_personnage
 WHERE boire.id_personnage IS NULL
 ORDER BY nom_personnage;
+
+--  Nom du / des personnages qui n'ont pas le droit de boire de la potion 'Magique'.
+SELECT nom_personnage
+FROM personnage
+LEFT JOIN autoriser_boire
+	ON personnage.id_personnage = autoriser_boire.id_personnage
+LEFT JOIN potion
+	ON autoriser_boire.id_potion = potion.id_potion
+WHERE autoriser_boire.id_potion != ( potion.id_potion = (potion.nom_potion = 'Magique'))
+GROUP BY nom_personnage
+ORDER BY nom_personnage;
