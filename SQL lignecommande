@@ -126,3 +126,12 @@ LEFT JOIN potion
 WHERE autoriser_boire.id_potion != ( potion.id_potion = (potion.nom_potion = 'Magique'))
 GROUP BY nom_personnage
 ORDER BY nom_personnage;
+
+-- Ajoutez le personnage suivant : Champdeblix, agriculteur résidant à la ferme Hantassion de  Rotomagus.
+INSERT INTO personnage (`id_personnage`, `nom_personnage`, `adresse_personnage`, `image_personnage`, `id_lieu`, `id_specialite`)
+VALUES
+			(46, 'Textix', 'SDF', 'indisponible.jpg', 1, 11);
+
+INSERT INTO personnage ('nom_personnage', 'id_specialite', 'adresse_personnage', 'id_lieu')
+VALUES 
+		('Textix2', 12, 'ferme Hantassion', 6);
