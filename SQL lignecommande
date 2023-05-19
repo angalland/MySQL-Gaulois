@@ -140,3 +140,22 @@ INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_speciali
 INSERT INTO autoriser_boire 
 VALUES 
 	(1, 49); -- autorise Textix3 a boire de la potion magique
+
+
+-- . C Supprimez les casques grecs qui n'ont jamais été pris lors d'une bataille.
+
+SELECT casque.nom_casque, casque.id_casque
+FROM casque
+WHERE casque.id_type_casque = 2;
+
+SELECT prendre_casque.id_casque, casque.nom_casque
+FROM casque
+INNER JOIN prendre_casque
+	ON casque.id_casque = prendre_casque.id_casque
+INNER JOIN type_casque
+	ON casque.id_casque = type_casque.id_type_casque
+WHERE casque.nom_casque = (type_casque.id_type_casque = 2);
+
+DELETE FROM casque
+-- WHERE id_casque IN (id_type_casque = 2 AND id_casque[prendre_casque] IS NULL);
+WHERE id_casque IN (21, 22, 23);
