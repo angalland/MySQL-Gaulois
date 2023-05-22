@@ -198,6 +198,30 @@ INNER JOIN type_casque
 	ON casque.id_casque = type_casque.id_type_casque
 WHERE casque.nom_casque = (type_casque.id_type_casque = 2);
 
+SELECT id_casque
+FROM casque
+INNER JOIN type_casque
+	ON casque.id_type_casque = type_casque.id_type_casque
+WHERE type_casque.nom_type_casque = 'Grec'
+AND NOT casque.id_casque IN (
+	SELECT prendre_casque.id_casque
+	FROM prendre_casque
+	INNER JOIN casque
+		ON prendre_casque.id_casque = casque.id_casque);
+		
+DELETE FROM casque
+WHERE id_casque = (
+	SELECT id_casque
+	FROM casque
+	INNER JOIN type_casque
+		ON casque.id_type_casque = type_casque.id_type_casque
+	WHERE type_casque.nom_type_casque = 'Grec'
+	AND NOT casque.id_casque IN (
+		SELECT prendre_casque.id_casque
+		FROM prendre_casque
+		INNER JOIN casque
+			ON prendre_casque.id_casque = casque.id_casque));
+
 DELETE FROM casque
 -- WHERE id_casque IN (id_type_casque = 2 AND id_casque[prendre_casque] IS NULL);
 WHERE id_casque IN (21, 22, 23);
