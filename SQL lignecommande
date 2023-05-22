@@ -204,7 +204,8 @@ WHERE id_casque IN (21, 22, 23);
 
 -- D Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
 UPDATE personnage
-SET adresse_personnage = 'Prison', id_lieu = 9
+SET 	adresse_personnage = 'prison', 
+		id_lieu = (SELECT id_lieu FROM lieu WHERE nom_lieu = 'Condate')
 WHERE nom_personnage = 'Zérozérosix';
 
 -- E La potion 'Soupe' ne doit plus contenir de persil.
