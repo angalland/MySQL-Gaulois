@@ -122,11 +122,18 @@ WHERE nom_ingredient
 LIKE '%oisson frais';
 
 --  13 Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois.
-SELECT MAX(nom_lieu) AS 'lieu ayant le plus de personnage apres le village gaulois'
-FROM personnage
-INNER JOIN lieu
-	ON personnage.id_lieu  = lieu.id_lieu
-WHERE personnage.id_lieu > (lieu.id_lieu = (lieu.nom_lieu = 'Village gaulois'));
+SELECT COUNT(nom_lieu) AS nombre_personnage, nom_lieu
+FROM personnage, lieu
+WHERE personnage.id_lieu = lieu.id_lieu
+AND nom_lieu != 'Village gaulois'
+GROUP BY nom_lieu
+HAVING nombre_personnage >= ALL(
+ 	SELECT COUNT(personnage.id_lieu)
+	FROM personnage, lieu
+	WHERE personnage.id_lieu = lieu.id_lieu
+	AND nom_lieu != 'Village gaulois'
+	GROUP BY personnage.id_lieu );
+
 
 -- 14 Nom des personnages qui n''ont jamais bu aucune potion
 SELECT nom_personnage
