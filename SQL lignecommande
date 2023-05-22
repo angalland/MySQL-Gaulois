@@ -67,7 +67,7 @@ INNER JOIN personnage
 	ON prendre_casque.id_personnage = personnage.id_personnage
 INNER JOIN bataille
 	ON prendre_casque.id_bataille = bataille.id_bataille
-WHERE prendre_casque.id_bataille = (bataille.nom_bataille = 'Bataille du village gaulois');
+WHERE LOWER(nom_bataille) = 'bataille du village gaulois';
 
 -- 9 Nom des personnages et leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
 SELECT nom_personnage, SUM(dose_boire) AS quantite_bu
