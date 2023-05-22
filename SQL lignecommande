@@ -147,10 +147,19 @@ ORDER BY nom_personnage;
 SELECT nom_personnage
 FROM personnage
 LEFT JOIN autoriser_boire
-	ON personnage.id_personnage = autoriser_boire.id_personnage
+	ON autoriser_boire.id_personnage = personnage.id_personnage
 LEFT JOIN potion
 	ON autoriser_boire.id_potion = potion.id_potion
-WHERE autoriser_boire.id_potion != ( potion.id_potion = (potion.nom_potion = 'Magique'))
+WHERE nom_potion IS NOT NULL
+AND autoriser_boire.id_personnage NOT IN (
+			SELECT autoriser_boire.id_personnage
+			FROM personnage
+			LEFT JOIN autoriser_boire
+			ON autoriser_boire.id_personnage = personnage.id_personnage
+			LEFT JOIN potion
+			ON autoriser_boire.id_potion = potion.id_potion
+			WHERE potion.id_potion = (potion.nom_potion = 'Magique')
+			)
 GROUP BY nom_personnage
 ORDER BY nom_personnage;
 
