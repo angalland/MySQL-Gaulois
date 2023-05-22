@@ -164,6 +164,13 @@ GROUP BY nom_personnage
 ORDER BY nom_personnage;
 
 --  A Ajoutez le personnage suivant : Champdeblix, agriculteur résidant à la ferme Hantassion de  Rotomagus.
+INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
+VALUES ('Champdeblix', 'Ferme Hantassion', 
+(SELECT id_lieu FROM lieu WHERE nom_lieu = 'Rotomagus'),
+(SELECT id_specialite FROM specialite WHERE nom_specialite =
+'Agriculteur'))
+
+-- test ---
 INSERT INTO personnage (`id_personnage`, `nom_personnage`, `adresse_personnage`, `image_personnage`, `id_lieu`, `id_specialite`)
 VALUES
 			(46, 'Textix', 'SDF', 'indisponible.jpg', 1, 11);
@@ -172,11 +179,6 @@ INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_speciali
  VALUES 
 		 ( 'Textix3', 'ferme Hantassion', 6, 12);
 
-INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
-VALUES ('Champdeblix', 'Ferme Hantassion', 
-(SELECT id_lieu FROM lieu WHERE nom_lieu = 'Rotomagus'),
-(SELECT id_specialite FROM specialite WHERE nom_specialite =
-'Agriculteur'))
 
 --  B Autorisez Bonemine à boire de la potion magique, elle est jalouse d'Iélosubmarine...
 INSERT INTO autoriser_boire 
@@ -185,45 +187,37 @@ VALUES (
 	(SELECT id_personnage FROM personnage WHERE nom_personnage = 'Bonemine')); 
 
 -- . C Supprimez les casques grecs qui n'ont jamais été pris lors d'une bataille.
-
-SELECT casque.nom_casque, casque.id_casque
-FROM casque
-WHERE casque.id_type_casque = 2;
-
-SELECT prendre_casque.id_casque, casque.nom_casque
-FROM casque
-INNER JOIN prendre_casque
-	ON casque.id_casque = prendre_casque.id_casque
-INNER JOIN type_casque
-	ON casque.id_casque = type_casque.id_type_casque
-WHERE casque.nom_casque = (type_casque.id_type_casque = 2);
-
 SELECT id_casque
 FROM casque
 INNER JOIN type_casque
 	ON casque.id_type_casque = type_casque.id_type_casque
 WHERE type_casque.nom_type_casque = 'Grec'
-AND NOT casque.id_casque IN (
+AND casque.id_casque  not IN (
 	SELECT prendre_casque.id_casque
 	FROM prendre_casque
 	INNER JOIN casque
 		ON prendre_casque.id_casque = casque.id_casque);
+
+SELECT id_casque
+    FROM prendre_casque
+    WHERE id_bataille IS NOT NULL;
 		
-DELETE FROM casque
-WHERE id_casque = (
-	SELECT id_casque
-	FROM casque
-	INNER JOIN type_casque
-		ON casque.id_type_casque = type_casque.id_type_casque
-	WHERE type_casque.nom_type_casque = 'Grec'
-	AND NOT casque.id_casque IN (
-		SELECT prendre_casque.id_casque
-		FROM prendre_casque
-		INNER JOIN casque
-			ON prendre_casque.id_casque = casque.id_casque));
+
+ SELECT id_type_casque
+    FROM type_casque
+    WHERE LOWER(nom_type_casque) = 'grec';
 
 DELETE FROM casque
--- WHERE id_casque IN (id_type_casque = 2 AND id_casque[prendre_casque] IS NULL);
+	WHERE id_type_casque = (
+	SELECT id_type_casque
+   FROM type_casque
+   WHERE LOWER(nom_type_casque) = 'grec')
+AND id_casque NOT IN  (
+	SELECT id_casque
+   FROM prendre_casque
+  	WHERE id_bataille IS NOT NULL);
+
+DELETE FROM casque
 WHERE id_casque IN (21, 22, 23);
 
 -- D Modifiez l'adresse de Zérozérosix : il a été mis en prison à Condate.
