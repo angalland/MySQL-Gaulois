@@ -78,6 +78,7 @@ GROUP BY personnage.id_personnage
 ORDER BY quantite_bu DESC;
 
 -- 10 Nom de la bataille où le nombre de casques pris a été le plus important.
+-- 1er methode (n'affichera pas si il y a plusieurs resultats)
 SELECT nom_bataille, SUM(qte) AS qte
 FROM prendre_casque
 INNER JOIN bataille
@@ -86,6 +87,7 @@ GROUP BY nom_bataille
 ORDER BY qte DESC 
 LIMIT 1;
 
+-- 2d methode
 SELECT bataille.nom_bataille, SUM(prendre_casque.qte) AS nb_casques
 FROM bataille, prendre_casque 
 WHERE bataille.id_bataille = prendre_casque.id_bataille 
@@ -93,7 +95,7 @@ GROUP BY bataille.id_bataille
 HAVING nb_casques >= ALL (
  	SELECT SUM(prendre_casque.qte) 
 	FROM bataille, prendre_casque 
-	WHERE bataille.id_bataille= prendre_casque.id_bataille GROUP BY bataille.id_bataille );
+	WHERE bataille.id_bataille = prendre_casque.id_bataille GROUP BY bataille.id_bataille );
 
 -- 11 Combien existe-t-il de casques de chaque type et quel est leur coût total ? (classés par nombre décroissant)
 SELECT type_casque.nom_type_casque, COUNT(casque.id_type_casque), SUM(casque.cout_casque) AS cout
