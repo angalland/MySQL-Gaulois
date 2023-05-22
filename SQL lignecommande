@@ -9,11 +9,12 @@ WHERE nom_lieu
 LIKE "%um";
 
 -- 2 Nombre de personnages par lieu (trié par nombre de personnages décroissant).
-SELECT nom_lieu, COUNT(id_personnage)
+SELECT nom_lieu, COUNT(id_personnage) AS nombre_personnage
 FROM lieu
 INNER JOIN personnage
 	ON lieu.id_lieu = personnage.id_lieu
 GROUP BY nom_lieu;
+ORDER BY nombre_personnage DESC;
 
 -- 3 Nom des personnages + spécialité + adresse et lieu d'habitation, triés par lieu puis par nom de personnage.
 SELECT DISTINCT nom_lieu, nom_personnage, nom_specialite, adresse_personnage 
@@ -69,11 +70,12 @@ INNER JOIN bataille
 WHERE prendre_casque.id_bataille = (bataille.nom_bataille = 'Bataille du village gaulois');
 
 -- 9 Nom des personnages et leur quantité de potion bue (en les classant du plus grand buveur au plus petit).
-SELECT nom_personnage, dose_boire
+SELECT nom_personnage, SUM(dose_boire) AS quantite_bu
 FROM boire
 INNER JOIN personnage
 	ON boire.id_personnage = personnage.id_personnage
-ORDER BY dose_boire DESC;
+GROUP BY personnage.id_personnage
+ORDER BY quantite_bu DESC;
 
 -- 10 Nom de la bataille où le nombre de casques pris a été le plus important.
 SELECT nom_bataille, SUM(qte) AS qte
@@ -83,6 +85,15 @@ INNER JOIN bataille
 GROUP BY nom_bataille
 ORDER BY qte DESC 
 LIMIT 1;
+
+SELECT bataille.nom_bataille, SUM(prendre_casque.qte) AS nb_casques
+FROM bataille, prendre_casque 
+WHERE bataille.id_bataille = prendre_casque.id_bataille 
+GROUP BY bataille.id_bataille 
+HAVING nb_casques >= ALL (
+ 	SELECT SUM(prendre_casque.qte) 
+	FROM bataille, prendre_casque 
+	WHERE bataille.id_bataille= prendre_casque.id_bataille GROUP BY bataille.id_bataille );
 
 -- 11 Combien existe-t-il de casques de chaque type et quel est leur coût total ? (classés par nombre décroissant)
 SELECT type_casque.nom_type_casque, COUNT(casque.id_type_casque), SUM(casque.cout_casque) AS cout
@@ -100,6 +111,15 @@ INNER JOIN Potion
 INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
 WHERE composer.id_ingredient = 24;
+
+SELECT potion.nom_potion
+FROM composer
+INNER JOIN potion
+ 	ON composer.id_potion = potion.id_potion
+INNER JOIN ingredient
+	ON composer.id_ingredient = ingredient.id_ingredient
+WHERE nom_ingredient 
+LIKE '%oisson frais';
 
 --  13 Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois.
 SELECT MAX(nom_lieu) AS 'lieu ayant le plus de personnage apres le village gaulois'
