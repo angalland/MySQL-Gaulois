@@ -106,20 +106,11 @@ ORDER BY cout DESC;
 -- 12 Nom des potions dont un des ingrédients est le poisson frais.
 SELECT potion.nom_potion
 FROM composer
-INNER JOIN Potion
-	ON composer.id_potion = potion.id_potion
-INNER JOIN ingredient
-	ON composer.id_ingredient = ingredient.id_ingredient
-WHERE composer.id_ingredient = 24;
-
-SELECT potion.nom_potion
-FROM composer
 INNER JOIN potion
  	ON composer.id_potion = potion.id_potion
 INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
-WHERE nom_ingredient 
-LIKE '%oisson frais';
+WHERE LOWER(nom_ingredient) = 'poisson frais'; 
 
 --  13 Nom du / des lieu(x) possédant le plus d'habitants, en dehors du village gaulois.
 SELECT COUNT(nom_lieu) AS nombre_personnage, nom_lieu
