@@ -149,10 +149,11 @@ AND autoriser_boire.id_personnage NOT IN (
 			ON autoriser_boire.id_personnage = personnage.id_personnage
 			LEFT JOIN potion
 			ON autoriser_boire.id_potion = potion.id_potion
-			WHERE potion.id_potion = (potion.nom_potion = 'Magique')
+			WHERE LOWER(nom_potion) = 'magique'
 			)
 GROUP BY nom_personnage
 ORDER BY nom_personnage;
+
 
 --  A Ajoutez le personnage suivant : Champdeblix, agriculteur résidant à la ferme Hantassion de  Rotomagus.
 INSERT INTO personnage (nom_personnage, adresse_personnage, id_lieu, id_specialite)
