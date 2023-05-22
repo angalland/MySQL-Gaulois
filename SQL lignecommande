@@ -116,13 +116,13 @@ WHERE LOWER(nom_ingredient) = 'poisson frais';
 SELECT COUNT(nom_lieu) AS nombre_personnage, nom_lieu
 FROM personnage, lieu
 WHERE personnage.id_lieu = lieu.id_lieu
-AND nom_lieu != 'Village gaulois'
+AND LOWER(nom_lieu) != 'village gaulois'
 GROUP BY nom_lieu
 HAVING nombre_personnage >= ALL(
  	SELECT COUNT(personnage.id_lieu)
 	FROM personnage, lieu
 	WHERE personnage.id_lieu = lieu.id_lieu
-	AND nom_lieu != 'Village gaulois'
+	AND LOWER(nom_lieu) != 'village gaulois'
 	GROUP BY personnage.id_lieu );
 
 
