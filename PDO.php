@@ -22,23 +22,41 @@ catch (Execption $e)  // si la connextion n'a pas eu lieu affichera ce message d
 }
 
 
-$sqlQuery = 
+$sqlQuery = // Ici on fait la requete SQL que l'on souhaite obtenir et on la stocke dans une variable
 'SELECT * 
 FROM personnage
 INNER JOIN specialite
     ON personnage.id_specialite = specialite.id_specialite
 INNER JOIN lieu
     ON personnage.id_lieu = lieu.id_lieu';
-$personnagesStatement = $db->prepare($sqlQuery);
-$personnagesStatement->execute();
-$personnages = $personnagesStatement->fetchAll();
+$personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cette requete ici on assigne la requete a la variable nomStatement 
+$personnagesStatement->execute(); // PDO execute la variable
+$personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees sous forme de tableau
 
-$sqlQuery1 = 'SELECT * FROM potion';
-$potionStatement = $db->prepare($sqlQuery1);
-$potionStatement->execute();
-$potions = $potionStatement->fetchAll();
+$sqlQuery1 = 
+'SELECT nom_specialite, COUNT(id_personnage) AS nbPersonnages
+FROM specialite
+INNER JOIN personnage
+    ON specialite.id_specialite = personnage.id_specialite
+GROUP BY specialite.id_specialite
+ORDER BY COUNT(id_personnage) DESC;';
+$nbPersonnageSpecialiteStatement = $db->prepare($sqlQuery1);
+$nbPersonnageSpecialiteStatement->execute();
+$nbpersonnagesSpecialites = $nbPersonnageSpecialiteStatement->fetchAll();
 
-?>
+$sqlQuery2 = 
+'SELECT DATE_FORMAT(date_bataille, "%d/%m/%Y") AS 'Date bataille', nom_bataille, nom_lieu
+FROM bataille
+INNER JOIN lieu
+ 	ON bataille.id_lieu = lieu.id_lieu
+ORDER BY date_bataille DESC;';
+$batailleLieuDateStatement = $db->prepare($sqlQuery2);
+$batailleLieuDateStatement->execute();
+$batailleLieuDates = $batailleLieuDateStatement->fetchAll();
+
+
+
+?> <!-- on va restituer les données sous forme de tableau -->
 <table>
     <thead>
         <tr>
@@ -49,7 +67,7 @@ $potions = $potionStatement->fetchAll();
     </thead>
     <tbody>
             <?php
-            foreach ($personnages as $personnage) { ?>
+            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau -->
         <tr>
             <td><?php echo $personnage['nom_personnage']; ?></td>
             <td><?php echo $personnage['nom_specialite']; ?></td>
@@ -59,6 +77,23 @@ $potions = $potionStatement->fetchAll();
             ?>
         </tr>
     </tbody>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Spécialité</th>
+                <th>Nombre de Gaulois</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($nbpersonnagesSpecialites as $nbpersonnagesSpecialite) { ?>
+                <tr>
+                    <td><?php echo $nbpersonnagesSpecialite['nom_specialite']; ?></td>
+                    <td><?php echo $nbpersonnagesSpecialite['nbPersonnages']; ?></td>
+            <?php
+            }
+            ?>
 </table>
 </body>
 </html>
