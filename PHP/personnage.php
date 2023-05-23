@@ -33,29 +33,6 @@ $personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cet
 $personnagesStatement->execute(); // PDO execute la variable
 $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees sous forme de tableau
 
-$sqlQuery1 = 
-'SELECT nom_specialite, COUNT(id_personnage) AS nbPersonnages
-FROM specialite
-INNER JOIN personnage
-    ON specialite.id_specialite = personnage.id_specialite
-GROUP BY specialite.id_specialite
-ORDER BY COUNT(id_personnage) DESC;';
-$nbPersonnageSpecialiteStatement = $db->prepare($sqlQuery1);
-$nbPersonnageSpecialiteStatement->execute();
-$nbpersonnagesSpecialites = $nbPersonnageSpecialiteStatement->fetchAll();
-
-$sqlQuery2 = 
-'SELECT date_bataille, nom_bataille, nom_lieu
-FROM bataille
-INNER JOIN lieu
- 	ON bataille.id_lieu = lieu.id_lieu
-ORDER BY date_bataille DESC;';
-$batailleLieuDateStatement = $db->prepare($sqlQuery2);
-$batailleLieuDateStatement->execute();
-$batailleLieuDates = $batailleLieuDateStatement->fetchAll();
-
-
-
 ?> <!-- on va restituer les données sous forme de tableau -->
 <table>
     <thead>
@@ -79,49 +56,7 @@ $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
             ?>
         </tr>
     </tbody>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Spécialité</th>
-                <th>Nombre de Gaulois</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach ($nbpersonnagesSpecialites as $nbpersonnagesSpecialite) { ?> <!-- on fait une boucle pour lire le tableau $nbpersonnagesSpecialites -->
-                <tr>
-                    <td><?php echo $nbpersonnagesSpecialite['nom_specialite']; ?></td>
-                    <td><?php echo $nbpersonnagesSpecialite['nbPersonnages']; ?></td>
-            <?php
-            }
-            ?>
-                </tr>
-        </tbody>
-    </table>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nom bataille</th>
-                <th>Date de la bataille</th>
-                <th>Lieu de la bataille</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach ($batailleLieuDates as $batailleLieuDate) { ?>
-                <tr>
-                    <td><?php echo $batailleLieuDate['nom_bataille'];?>
-                    <td><?php
-                    $date = $batailleLieuDate['date_bataille'];
-                    $dt = DateTime::createFromFormat('Y-m-d', $date);
-                    echo $dt->format('d/m/Y');
-                    ?>
-                    <td><?php echo $batailleLieuDate['nom_lieu'];?>
-            <?php    
-            }
-            ?>
+  
 </body>
 </html>
 
