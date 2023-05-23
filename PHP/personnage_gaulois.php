@@ -8,72 +8,72 @@
 </head>
 <body>
 <?php
-try { // on effectue un "test" pour voir si on a bien connecté php a Mysql 
-$db = new PDO(   // on se connecte a MySQL
-    'mysql:host=localhost;dbname=gaulois', // on donne le nom d'hôte ici on est en local donc localhost, le nom de la base de donné : gaulois
-    'root', // on indique ici le nom d'utilisateur
-    ''  // on indique ici le mot de passe : ici il n y a pas de mot de passe donc ''
-);
 
-}
-catch (Execption $e)  // si la connextion n'a pas eu lieu affichera ce message d'erreure
-{
-    die('Erreur : ' . $e->getMessage());
-}
+session_start();
 
 
-$sqlQuery = // Ici on fait la requete SQL que l'on souhaite obtenir et on la stocke dans une variable
-'SELECT nom_personnage, adresse_personnage, nom_lieu, nom_specialite, nom_bataille
-FROM personnage
-INNER JOIN specialite
-    ON personnage.id_specialite = specialite.id_specialite
-INNER JOIN lieu
-    ON personnage.id_lieu = lieu.id_lieu
-LEFT JOIN prendre_casque
-	ON personnage.id_personnage = prendre_casque.id_personnage
-LEFT JOIN bataille
-	ON  prendre_casque.id_bataille = bataille.id_bataille
-ORDER BY nom_personnage';
-$personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cette requete ici on assigne la requete a la variable nomStatement 
-$personnagesStatement->execute(); // PDO execute la variable
-$personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees sous forme de tableau
+if (isset($_GET['action=lien'])){
 
-$sqlQuery1 = 
-'SELECT nom_personnage, nom_bataille
-FROM prendre_casque
-INNER JOIN personnage
-	ON prendre_casque.id_personnage = personnage.id_personnage
-INNER JOIN bataille
-	ON prendre_casque.id_bataille = bataille.id_bataille';
-$bataillePersonnageStatement = $db->prepare($sqlQuery1);
-$bataillePersonnageStatement->execute();
-$bataillePersonnages = $bataillePersonnageStatement->fetchAll();
-
-
-?> <!-- on va restituer les données sous forme de tableau -->
-<table>
-    <thead>
-        <tr>
-            <th>Nom personnage</th>
-            <th>Spécialité</th>
-            <th>Ville</th>
-            <th>Bataille</th>
-        </tr>
-    </thead>
-    <tbody>
-            <?php
-            foreach ($personnages as $index => $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
-        <tr>
-            <td><?php $personnages[$index]['nom_personnage']; ?></td>
-            <?php
-            }
-            ?>
-        </tr>
-    </tbody>
-</table>   
     
-</body>
+
+        try { 
+        $db = new PDO(   
+            'mysql:host=localhost;dbname=gaulois', 
+            'root', 
+            ''  
+        );
+
+        }
+        catch (Execption $e)  
+        {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+
+        $sqlQuery = 
+        'SELECT nom_personnage, adresse_personnage, nom_lieu, nom_specialite, nom_bataille
+        FROM personnage
+        INNER JOIN specialite
+            ON personnage.id_specialite = specialite.id_specialite
+        INNER JOIN lieu
+            ON personnage.id_lieu = lieu.id_lieu
+        LEFT JOIN prendre_casque
+            ON personnage.id_personnage = prendre_casque.id_personnage
+        LEFT JOIN bataille
+            ON  prendre_casque.id_bataille = bataille.id_bataille';
+        $personnagesStatement = $db->prepare($sqlQuery); 
+        $personnagesStatement->execute(); 
+        $personnages = $personnagesStatement->fetchAll();
+
+        
+    
+        echo 
+        "<table>
+            <thead>
+                <tr>
+                    <th>Nom personnage</th>
+                    <th>Spécialité</th>
+                    <th>Ville</th>
+                    <th>Bataille</th>
+                </tr>
+            </thead>
+            <tbody>";
+                    
+                    foreach ($personnages as $index => $personnage) {  
+                echo "<tr>",
+                    "<td>",
+                    $personnage['nom_personnage'];
+                    "</td>";
+                    
+                    }
+                
+                echo "</tr>
+            </tbody>
+        </table>";  
+            
+        
+}
+?>
+    
+    </body>
 </html>
-<!-- <td><?php //echo $personnage['nom_specialite']; ?></td>
-<td><?php //echo $personnage['nom_lieu']; ?></td>               
-<td><?php //echo $personnage['nom_bataille']; ?></td> -->

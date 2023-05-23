@@ -48,7 +48,7 @@ $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees s
             foreach ($personnages as $index => $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
         <tr>
             <td><?php echo $index ?>
-            <td><a href="personnage_gaulois.php"><?php echo $personnage['nom_personnage']; ?></a></td>
+            <td><a href="personnage_gaulois.php?action=lien" <?php $index ?>'><?php echo $personnage['nom_personnage']; ?></a></td>
             <td><?php echo $personnage['nom_specialite']; ?></td>
             <td><?php echo $personnage['nom_lieu']; ?></td>               
             <?php
