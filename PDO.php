@@ -22,23 +22,44 @@ catch (Execption $e)
 }
 
 
-$sqlQuery = 'SELECT * FROM personnage';
-$gauloisStatement = $db->prepare($sqlQuery);
-$gauloisStatement->execute();
-$gaulois = $gauloisStatement->fetchAll();
+$sqlQuery = 
+'SELECT * 
+FROM personnage
+INNER JOIN specialite
+    ON personnage.id_specialite = specialite.id_specialite
+INNER JOIN lieu
+    ON personnage.id_lieu = lieu.id_lieu';
+$personnagesStatement = $db->prepare($sqlQuery);
+$personnagesStatement->execute();
+$personnages = $personnagesStatement->fetchAll();
 
-
-foreach ($gaulois as $gauloi) {
-    ?>
-    <p><?php echo $gauloi['nom_personnage']; ?></p>
-<?php
-}
-
-
-
-
+$sqlQuery1 = 'SELECT * FROM specialite';
+$specialiteStatement = $db->prepare($sqlQuery1);
+$specialiteStatement->execute();
+$specialites = $specialiteStatement->fetchAll();
 
 ?>
+<table>
+    <thead>
+        <tr>
+            <th>Nom personnage</th>
+            <th>Spécialité</th>
+            <th>Ville</th>
+        </tr>
+    </thead>
+    <tbody>
+            <?php
+            foreach ($personnages as $personnage) { ?>
+        <tr>
+            <td><?php echo $personnage['nom_personnage']; ?></td>
+            <td><?php echo $personnage['nom_specialite']; ?></td>
+            <td><?php echo $personnage['nom_lieu']; ?></td>               
+            <?php
+            }
+            ?>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>
 
