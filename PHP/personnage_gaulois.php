@@ -8,30 +8,17 @@
 </head>
 <body>
 <?php
+$id = $_GET['id'];
 
-session_start();
-
-
-// if (isset($_GET['action=lien'])){
-
-    
-
-        try { 
-        $db = new PDO(   
-            'mysql:host=localhost;dbname=gaulois', 
+try {   
+    $db = new PDO(   
+            'mysql:host=localhost;dbname=gaulois',  
             'root', 
-            ''  
+            ''
         );
 
-        }
-        catch (Execption $e)  
-        {
-            die('Erreur : ' . $e->getMessage());
-        }
-
-
         $sqlQuery = 
-        'SELECT nom_personnage, adresse_personnage, nom_lieu, nom_specialite, nom_bataille
+        'SELECT * 
         FROM personnage
         INNER JOIN specialite
             ON personnage.id_specialite = specialite.id_specialite
@@ -40,41 +27,40 @@ session_start();
         LEFT JOIN prendre_casque
             ON personnage.id_personnage = prendre_casque.id_personnage
         LEFT JOIN bataille
-            ON  prendre_casque.id_bataille = bataille.id_bataille';
+            ON prendre_casque.id_bataille = bataille.id_bataille
+        WHERE personnage.id_personnage ='. $id;
+
         $personnagesStatement = $db->prepare($sqlQuery); 
         $personnagesStatement->execute(); 
         $personnages = $personnagesStatement->fetchAll();
 
-        
-    
-        
-        
-    // }
-    echo 
-    "<table>
-        <thead>
-            <tr>
-                <th>Nom personnage</th>
-                <th>Spécialité</th>
-                <th>Ville</th>
-                <th>Bataille</th>
-            </tr>
-        </thead>
-        <tbody>";
-                
-                foreach ($personnages as $index => $personnage) {  
-            echo "<tr>",
-                "<td>",
-                $personnage['nom_personnage'];
-                "</td>";
-                
-                }
-            
-            echo "</tr>
-        </tbody>
-    </table>";  
+        echo '<table>',
+                    '<thead>',
+                        '<tr>',
+                            '<th>Nom personnage</th>',
+                            '<th>Specialite</th>',
+                            '<th>Ville</th>',
+                            '<th>Adresse</th>',
+                            '<th>Bataille</th>',
+                        '</tr>',
+                    '</thead>',
+                    '<tbody>';
+        foreach ($personnages as $personnage){
+            echo '<tr>',
+                    '<td>'.$personnage['nom_personnage'].'</td>',
+                    '<td>'.$personnage['nom_specialite'].'</td>',
+                    '<td>'.$personnage['nom_lieu'].'</td>',
+                    '<td>'.$personnage['adresse_personnage'].'</td>',
+                    '<td>'.$personnage['nom_bataille'].'</td>',
+                '</tr>';
+        }
+        echo '</tbody>',
+        '</table>';
+} catch (Execption $e)  {
+    die('Erreur : ' . $e->getMessage());
+}
+
 ?>
-<p>test</p>
-    
+     
     </body>
 </html>
