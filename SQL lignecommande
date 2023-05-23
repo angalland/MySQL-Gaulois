@@ -247,3 +247,6 @@ AND id_personnage = (
 	SELECT id_personnage
 	FROM personnage
 	WHERE nom_personnage = 'Obélix');
+
+
+-- test
