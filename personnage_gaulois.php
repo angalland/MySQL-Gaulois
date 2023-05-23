@@ -29,9 +29,9 @@ INNER JOIN specialite
     ON personnage.id_specialite = specialite.id_specialite
 INNER JOIN lieu
     ON personnage.id_lieu = lieu.id_lieu
-INNER JOIN prendre_casque
+LEFT JOIN prendre_casque
 	ON personnage.id_personnage = prendre_casque.id_personnage
-INNER JOIN bataille
+LEFT JOIN bataille
 	ON  prendre_casque.id_bataille = bataille.id_bataille
 ORDER BY nom_personnage';
 $personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cette requete ici on assigne la requete a la variable nomStatement 
@@ -62,18 +62,18 @@ $bataillePersonnages = $bataillePersonnageStatement->fetchAll();
     </thead>
     <tbody>
             <?php
-            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
+            foreach ($personnages as $index => $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
         <tr>
-            <td><?php echo $personnage['nom_personnage'][1]; ?></td>
-            <td><?php echo $personnage['nom_specialite'][0]; ?></td>
-            <td><?php echo $personnage['nom_lieu'][0]; ?></td>               
-            <td><?php echo $personnage['nom_bataille'][0]; ?></td>
+            <td><?php $personnages[$index]['nom_personnage']; ?></td>
             <?php
             }
             ?>
         </tr>
     </tbody>
-
-  
+</table>   
+    
 </body>
 </html>
+<!-- <td><?php //echo $personnage['nom_specialite']; ?></td>
+<td><?php //echo $personnage['nom_lieu']; ?></td>               
+<td><?php //echo $personnage['nom_bataille']; ?></td> -->

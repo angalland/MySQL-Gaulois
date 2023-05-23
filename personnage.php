@@ -60,6 +60,7 @@ $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
 <table>
     <thead>
         <tr>
+            <th>index</th>
             <th>Nom personnage</th>
             <th>Spécialité</th>
             <th>Ville</th>
@@ -67,8 +68,9 @@ $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
     </thead>
     <tbody>
             <?php
-            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
+            foreach ($personnages as $index => $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
         <tr>
+            <td><?php echo $index ?>
             <td><a href="personnage_gaulois.php"><?php echo $personnage['nom_personnage']; ?></a></td>
             <td><?php echo $personnage['nom_specialite']; ?></td>
             <td><?php echo $personnage['nom_lieu']; ?></td>               
