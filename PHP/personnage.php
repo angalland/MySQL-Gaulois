@@ -41,29 +41,30 @@ $personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cet
 $personnagesStatement->execute(); // PDO execute la variable
 $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees sous forme de tableau
 
-?> <!-- on va restituer les données sous forme de tableau -->
-<table>
-    <thead>
-        <tr>
-            <th>index</th>
-            <th>Nom personnage</th>
-            <th>Spécialité</th>
-            <th>Ville</th>
-        </tr>
-    </thead>
-    <tbody>
-            <?php
-            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
-        <tr>
-            
-            <td><a href="personnage_gaulois.php?action=lien" ><?php $index ?><?php echo $personnage['nom_personnage']; ?></a></td>
-            <td><?php echo $personnage['nom_specialite']; ?></td>
-            <td><?php echo $personnage['nom_lieu']; ?></td>               
-            <?php
-            }
-            ?>
-        </tr>
-    </tbody>
+
+echo '<table>',
+        '<thead>',
+            '<tr>',
+                '<th>index</th>',
+                '<th>Nom personnage</th>',
+                '<th>Spécialité</th>',
+                '<th>Ville</th>',
+            '</tr>',
+        '</thead>',
+        '<tbody>';
+foreach ($personnages as $personnage) {
+    $id = $personnage['id_personnage'];
+    $url = 'personnage_gaulois.php?id='. $id;
+    echo '<tr>',
+            '<td><a href="'.$url.'">'.$personnage['nom_personnage'].'</a></td>',
+            '<td>'.$personnage['nom_specialite'].'</td>',
+            '<td>'.$personnage['nom_lieu'].'</td>';
+}
+echo     '</tr>',
+        '</tbody>',
+    '</table>';
+
+?> 
   
 </body>
 </html>
