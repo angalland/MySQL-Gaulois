@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
+<nav>
+        <ul>
+            <li><a href='personnage.php'>Personnage</a></li>
+            <li><a href='specialite.php'>Specialite</a></li>
+            <li><a href='bataille.php'>Bataille</a></li>
+            <li><a href='liste_personnage.php'>Liste des personnages</a></li>
+        </ul>
+    </nav>
 <?php
 try { // on effectue un "test" pour voir si on a bien connecté php a Mysql 
     $db = new PDO(   // on se connecte a MySQL

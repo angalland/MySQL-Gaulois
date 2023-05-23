@@ -7,6 +7,14 @@
     <title>PDO php</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href='personnage.php'>Personnage</a></li>
+            <li><a href='specialite.php'>Specialite</a></li>
+            <li><a href='bataille.php'>Bataille</a></li>
+            <li><a href='liste_personnage.php'>Liste des personnages</a></li>
+        </ul>
+    </nav>
 <?php
 try { // on effectue un "test" pour voir si on a bien connecté php a Mysql 
 $db = new PDO(   // on se connecte a MySQL
@@ -45,10 +53,10 @@ $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees s
     </thead>
     <tbody>
             <?php
-            foreach ($personnages as $index => $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
+            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
         <tr>
-            <td><?php echo $index ?>
-            <td><a href="personnage_gaulois.php?action=lien" <?php $index ?>'><?php echo $personnage['nom_personnage']; ?></a></td>
+            
+            <td><a href="personnage_gaulois.php?action=lien" ><?php $index ?><?php echo $personnage['nom_personnage']; ?></a></td>
             <td><?php echo $personnage['nom_specialite']; ?></td>
             <td><?php echo $personnage['nom_lieu']; ?></td>               
             <?php
