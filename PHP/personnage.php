@@ -36,7 +36,8 @@ FROM personnage
 INNER JOIN specialite
     ON personnage.id_specialite = specialite.id_specialite
 INNER JOIN lieu
-    ON personnage.id_lieu = lieu.id_lieu';
+    ON personnage.id_lieu = lieu.id_lieu
+ORDER BY personnage.nom_personnage';
 $personnagesStatement = $db->prepare($sqlQuery); // On utilise PDO pour lire cette requete ici on assigne la requete a la variable nomStatement 
 $personnagesStatement->execute(); // PDO execute la variable
 $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees sous forme de tableau
