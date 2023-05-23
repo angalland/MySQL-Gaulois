@@ -45,7 +45,7 @@ $nbPersonnageSpecialiteStatement->execute();
 $nbpersonnagesSpecialites = $nbPersonnageSpecialiteStatement->fetchAll();
 
 $sqlQuery2 = 
-'SELECT DATE_FORMAT(date_bataille, "%d/%m/%Y") AS 'Date bataille', nom_bataille, nom_lieu
+'SELECT date_bataille, nom_bataille, nom_lieu
 FROM bataille
 INNER JOIN lieu
  	ON bataille.id_lieu = lieu.id_lieu
@@ -67,7 +67,7 @@ $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
     </thead>
     <tbody>
             <?php
-            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau -->
+            foreach ($personnages as $personnage) { ?> <!-- on fait une boucle pour lire le tableau $personnages-->
         <tr>
             <td><?php echo $personnage['nom_personnage']; ?></td>
             <td><?php echo $personnage['nom_specialite']; ?></td>
@@ -87,14 +87,39 @@ $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
         </thead>
         <tbody>
             <?php
-            foreach ($nbpersonnagesSpecialites as $nbpersonnagesSpecialite) { ?>
+            foreach ($nbpersonnagesSpecialites as $nbpersonnagesSpecialite) { ?> <!-- on fait une boucle pour lire le tableau $nbpersonnagesSpecialites -->
                 <tr>
                     <td><?php echo $nbpersonnagesSpecialite['nom_specialite']; ?></td>
                     <td><?php echo $nbpersonnagesSpecialite['nbPersonnages']; ?></td>
             <?php
             }
             ?>
-</table>
+                </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom bataille</th>
+                <th>Date de la bataille</th>
+                <th>Lieu de la bataille</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($batailleLieuDates as $batailleLieuDate) { ?>
+                <tr>
+                    <td><?php echo $batailleLieuDate['nom_bataille'];?>
+                    <td><?php
+                    $date = $batailleLieuDate['date_bataille'];
+                    $dt = DateTime::createFromFormat('Y-m-d', $date);
+                    echo $dt->format('d/m/Y');
+                    ?>
+                    <td><?php echo $batailleLieuDate['nom_lieu'];?>
+            <?php    
+            }
+            ?>
 </body>
 </html>
 
