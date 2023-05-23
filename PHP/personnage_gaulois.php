@@ -12,7 +12,7 @@
 session_start();
 
 
-if (isset($_GET['action=lien'])){
+// if (isset($_GET['action=lien'])){
 
     
 
@@ -47,33 +47,34 @@ if (isset($_GET['action=lien'])){
 
         
     
-        echo 
-        "<table>
-            <thead>
-                <tr>
-                    <th>Nom personnage</th>
-                    <th>Spécialité</th>
-                    <th>Ville</th>
-                    <th>Bataille</th>
-                </tr>
-            </thead>
-            <tbody>";
-                    
-                    foreach ($personnages as $index => $personnage) {  
-                echo "<tr>",
-                    "<td>",
-                    $personnage['nom_personnage'];
-                    "</td>";
-                    
-                    }
-                
-                echo "</tr>
-            </tbody>
-        </table>";  
-            
         
-}
+        
+    // }
+    echo 
+    "<table>
+        <thead>
+            <tr>
+                <th>Nom personnage</th>
+                <th>Spécialité</th>
+                <th>Ville</th>
+                <th>Bataille</th>
+            </tr>
+        </thead>
+        <tbody>";
+                
+                foreach ($personnages as $index => $personnage) {  
+            echo "<tr>",
+                "<td>",
+                $personnage['nom_personnage'];
+                "</td>";
+                
+                }
+            
+            echo "</tr>
+        </tbody>
+    </table>";  
 ?>
+<p>test</p>
     
     </body>
 </html>
