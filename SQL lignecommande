@@ -13,7 +13,7 @@ SELECT nom_lieu, COUNT(id_personnage) AS nombre_personnage
 FROM lieu
 INNER JOIN personnage
 	ON lieu.id_lieu = personnage.id_lieu
-GROUP BY nom_lieu;
+GROUP BY lieu.id_lieu
 ORDER BY nombre_personnage DESC;
 
 -- 3 Nom des personnages + spécialité + adresse et lieu d'habitation, triés par lieu puis par nom de personnage.
@@ -30,7 +30,7 @@ SELECT nom_specialite, COUNT(id_personnage)
 FROM specialite
 INNER JOIN personnage
     ON specialite.id_specialite = personnage.id_specialite
-GROUP BY nom_specialite
+GROUP BY specialite.id_specialite
 ORDER BY COUNT(id_personnage) DESC;
 
 -- 5 Nom, date et lieu des batailles, classées de la plus récente à la plus ancienne (dates affichées au format jj/mm/aaaa)
@@ -47,7 +47,7 @@ INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
 INNER JOIN potion 
 	ON composer.id_potion = potion.id_potion
-GROUP BY potion.nom_potion
+GROUP BY potion.
 ORDER BY cout DESC;
 
 -- 7 Nom des ingrédients + coût + quantité de chaque ingrédient qui composent la potion 'Santé'.
@@ -57,8 +57,8 @@ INNER JOIN ingredient
 	ON composer.id_ingredient = ingredient.id_ingredient
 INNER JOIN potion
 	ON composer.id_potion = potion.id_potion
-WHERE LOWER(nom_potion) = 'santé'
-GROUP BY nom_ingredient, qte;
+WHERE nom_potion = 'santé'
+GROUP BY ingredient.id_ingredient, composer.qte;
 
 -- 8 Nom du ou des personnages qui ont pris le plus de casques dans la bataille 'Bataille du village gaulois'
 SELECT MAX(nom_personnage)
@@ -102,7 +102,7 @@ SELECT type_casque.nom_type_casque, COUNT(casque.id_type_casque), SUM(casque.cou
 FROM type_casque
 INNER JOIN casque
 	ON type_casque.id_type_casque = casque.id_type_casque
-GROUP BY type_casque.nom_type_casque
+GROUP BY type_casque.id_type_casque
 ORDER BY cout DESC;
 
 -- 12 Nom des potions dont un des ingrédients est le poisson frais.
@@ -119,7 +119,7 @@ SELECT COUNT(nom_lieu) AS nombre_personnage, nom_lieu
 FROM personnage, lieu
 WHERE personnage.id_lieu = lieu.id_lieu
 AND LOWER(nom_lieu) != 'village gaulois'
-GROUP BY nom_lieu
+GROUP BY lieu.id_lieu
 HAVING nombre_personnage >= ALL(
  	SELECT COUNT(personnage.id_lieu)
 	FROM personnage, lieu
@@ -153,7 +153,7 @@ AND autoriser_boire.id_personnage NOT IN (
 			ON autoriser_boire.id_potion = potion.id_potion
 			WHERE LOWER(nom_potion) = 'magique'
 			)
-GROUP BY nom_personnage
+GROUP BY personnage.id_personnage
 ORDER BY nom_personnage;
 
 
@@ -181,35 +181,33 @@ VALUES (
 	(SELECT id_personnage FROM personnage WHERE nom_personnage = 'Bonemine')); 
 
 -- . C Supprimez les casques grecs qui n'ont jamais été pris lors d'une bataille.
-SELECT id_casque
-FROM casque
-INNER JOIN type_casque
-	ON casque.id_type_casque = type_casque.id_type_casque
-WHERE type_casque.nom_type_casque = 'Grec'
-AND casque.id_casque  not IN (
-	SELECT prendre_casque.id_casque
-	FROM prendre_casque
-	INNER JOIN casque
-		ON prendre_casque.id_casque = casque.id_casque);
+-- SELECT id_casque
+-- FROM casque
+-- INNER JOIN type_casque
+-- 	ON casque.id_type_casque = type_casque.id_type_casque
+-- WHERE type_casque.nom_type_casque = 'Grec'
+-- AND casque.id_casque  not IN (
+-- 	SELECT prendre_casque.id_casque
+-- 	FROM prendre_casque
+-- 	INNER JOIN casque
+-- 		ON prendre_casque.id_casque = casque.id_casque);
 
 SELECT id_casque
     FROM prendre_casque
-    WHERE id_bataille IS NOT NULL;
-		
-
- SELECT id_type_casque
+    WHERE id_bataille IS NOT NULL;		
+SELECT id_type_casque
     FROM type_casque
     WHERE LOWER(nom_type_casque) = 'grec';
 
 DELETE FROM casque
 	WHERE id_type_casque = (
-	SELECT id_type_casque
-   FROM type_casque
-   WHERE LOWER(nom_type_casque) = 'grec')
-AND id_casque NOT IN  (
-	SELECT id_casque
-   FROM prendre_casque
-  	WHERE id_bataille IS NOT NULL);
+		SELECT id_type_casque
+   		FROM type_casque
+   		WHERE LOWER(nom_type_casque) = 'grec')
+	AND id_casque NOT IN  (
+		SELECT id_casque
+   		FROM prendre_casque
+  		WHERE id_bataille IS NOT NULL);
 
 DELETE FROM casque
 WHERE id_casque IN (21, 22, 23);
@@ -249,4 +247,4 @@ AND id_personnage = (
 	WHERE nom_personnage = 'Obélix');
 
 
--- test
+
