@@ -45,7 +45,6 @@ $personnages = $personnagesStatement->fetchAll(); // PDO récupere les donnees s
 echo '<table>',
         '<thead>',
             '<tr>',
-                '<th>index</th>',
                 '<th>Nom personnage</th>',
                 '<th>Spécialité</th>',
                 '<th>Ville</th>',
