@@ -19,7 +19,7 @@
                     <li><a href='bataille.php'>Bataille</a></li>
                 </ul>
             </nav>
-            
+
             <?php
                 try { 
                     $db = new PDO(   
