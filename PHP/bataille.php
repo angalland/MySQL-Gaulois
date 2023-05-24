@@ -21,15 +21,15 @@
                 </ul>
             </nav>
             <?php
-                try { // on effectue un "test" pour voir si on a bien connecté php a Mysql 
-                    $db = new PDO(   // on se connecte a MySQL
-                        'mysql:host=localhost;dbname=gaulois', // on donne le nom d'hôte ici on est en local donc localhost, le nom de la base de donné : gaulois
-                        'root', // on indique ici le nom d'utilisateur
-                        ''  // on indique ici le mot de passe : ici il n y a pas de mot de passe donc ''
+                try { 
+                    $db = new PDO(   
+                        'mysql:host=localhost;dbname=gaulois', 
+                        'root', 
+                        ''  
                     );
                     
                     }
-                    catch (Execption $e)  // si la connextion n'a pas eu lieu affichera ce message d'erreure
+                    catch (Execption $e)  
                     {
                         die('Erreur : ' . $e->getMessage());
                     }
