@@ -29,6 +29,7 @@ try {
         LEFT JOIN bataille
             ON prendre_casque.id_bataille = bataille.id_bataille
         WHERE personnage.id_personnage ='. $id;
+        
 
         $personnagesStatement = $db->prepare($sqlQuery); 
         $personnagesStatement->execute(); 
