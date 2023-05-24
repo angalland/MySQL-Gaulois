@@ -11,6 +11,7 @@
 
         </head>
         <body>
+            <!-- Connexion a la base de donnée -->
             <?php
             $id = $_GET['id']; //On recupere l'id_personnage via la superglobal $_GET et on la stocke dans la variable id
 
@@ -21,6 +22,7 @@
                 ''
             );
 
+            // requete SQL et récupération par php
             $sqlQuery = 
             'SELECT * 
             FROM personnage
@@ -39,6 +41,7 @@
             $personnagesStatement->execute(); 
             $personnages = $personnagesStatement->fetchAll();
 
+            // lecture des données mise en forme tableau html
             echo '<table>',
                     '<thead>',
                         '<tr>',

@@ -11,7 +11,7 @@
 
         </head>
         <body>
-
+            <!-- Nav bar -->
             <nav>
                 <ul>
                     <li><a href='personnage.php'>Personnage</a></li>
@@ -59,7 +59,7 @@
                     '<tbody>';
                         foreach ($personnages as $personnage) { // On fait une boucle sur le tableau $personnages pour le lire
                             $id = $personnage['id_personnage']; // On récupère l'id_personnage qu'on met dans une variable
-                            $url = 'personnage_gaulois.php?id='. $id; //On ajoute l'id_personnage a l'url de la page de destination qu'on incrémente dans une variable
+                            $url = 'personnage_gaulois.php?id='. $id; //On ajoute l'id_personnage a l'url de la page de destination qu'on stocke dans une variable
                             echo '<tr>',
                                     '<td><a href="'.$url.'">'.$personnage['nom_personnage'].'</a></td>', //On fait un lien vers la page avec pour href la variable url
                                     '<td>'.$personnage['nom_specialite'].'</td>',

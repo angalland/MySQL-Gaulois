@@ -11,7 +11,7 @@
 
         </head>
         <body>
-
+            <!-- Nav bar -->
             <nav>
                 <ul>
                     <li><a href='personnage.php'>Personnage</a></li>
@@ -21,6 +21,7 @@
             </nav>
 
             <?php
+            // Connexion a la base de donné 
             try { 
                 $db = new PDO(   
                     'mysql:host=localhost;dbname=gaulois', 
@@ -33,7 +34,7 @@
                 {
                     die('Erreur : ' . $e->getMessage());
                 }
-
+            // Requete SQL et récupération par php
             $sqlQuery1 = 
             'SELECT nom_specialite, COUNT(id_personnage) AS nbPersonnages
             FROM specialite
@@ -45,7 +46,7 @@
             $nbPersonnageSpecialiteStatement->execute();
             $nbpersonnagesSpecialites = $nbPersonnageSpecialiteStatement->fetchAll();
             ?>
-
+            <!-- Lecture des données mise en forme tableau html -->
             <table>
                 <thead>
                     <tr>

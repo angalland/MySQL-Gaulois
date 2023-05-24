@@ -13,6 +13,7 @@
         </head>
 
         <body>
+            <!-- Nav bar -->
             <nav>
                 <ul>
                     <li><a href='personnage.php'>Personnage</a></li>
@@ -22,6 +23,7 @@
             </nav>
 
             <?php
+            // Connexion a la base de donne
                 try { 
                     $db = new PDO(   
                         'mysql:host=localhost;dbname=gaulois', 
@@ -35,6 +37,7 @@
                         die('Erreur : ' . $e->getMessage());
                     }
 
+            // Requete SQL et récupération php
                     $sqlQuery2 = 
                     'SELECT date_bataille, nom_bataille, nom_lieu
                     FROM bataille
@@ -46,6 +49,7 @@
                     $batailleLieuDates = $batailleLieuDateStatement->fetchAll();
                 ?>
 
+            <!-- Lecture des données mise en forme de tableau -->
             <table>
                 <thead>
                     <tr>
