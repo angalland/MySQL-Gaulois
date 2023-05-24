@@ -17,7 +17,6 @@
                     <li><a href='personnage.php'>Personnage</a></li>
                     <li><a href='specialite.php'>Specialite</a></li>
                     <li><a href='bataille.php'>Bataille</a></li>
-                    <li><a href='liste_personnage.php'>Liste des personnages</a></li>
                 </ul>
             </nav>
 
