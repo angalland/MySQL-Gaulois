@@ -1,9 +1,44 @@
+@font-face {
+    font-family: 'ObelixPro';
+    src:    url('police/ObelixPro-cyr.ttf') format('truetype'),
+            url('police/ObelixProB-cyr.ttf') format('truetype'),
+            url('police/ObelixProBIt-cyr.ttf') format('truetype'),
+            url('police/ObelixProIt-cyr.ttf') format('truetype')
+}
+
+body {
+    font-family: 'ObelixPro', sans-serif;
+}
+
+
+
+
+
 table {
     width: 100%;
     border-collapse: collapse;
     border: 3px solid purple;
   }
   
+  thead th:nth-child(1) {
+    width: 30%;
+  }
+  
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+  
+  thead th:nth-child(3) {
+    width: 15%;
+  }
+  
+  thead th:nth-child(4) {
+    width: 35%;
+  }
+  
+  th, td {
+    padding: 20px;
+  }
 
   
 
