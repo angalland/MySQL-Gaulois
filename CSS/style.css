@@ -1,19 +1,36 @@
+
+/* POLICE */
 @font-face {
     font-family: 'ObelixPro';
     src:    url('police/ObelixPro-cyr.ttf') format('truetype'),
             url('police/ObelixProB-cyr.ttf') format('truetype'),
             url('police/ObelixProBIt-cyr.ttf') format('truetype'),
-            url('police/ObelixProIt-cyr.ttf') format('truetype')
+            url('police/ObelixProIt-cyr.ttf') format('truetype');
 }
 
 body {
     font-family: 'ObelixPro', sans-serif;
+    font-size: 15px;
 }
 
+/* NAV BAR */
+nav ul {
+    list-style-type: none;
+}
 
+nav li {
+    float: left;
+    width: 33%;
+    text-align: center;
+}
 
+nav ul::after{
+    content: "";
+    display: table;
+    clear: both;
+}
 
-
+/* TABLEAU */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -38,6 +55,22 @@ table {
   
   th, td {
     padding: 20px;
+  }
+
+  tbody td {
+    text-align: center;
+  }
+
+  thead, tbody td{
+    border: 3px solid black;
+  }
+
+  thead {
+    color: red;
+  }
+
+  a {
+    color:green;
   }
 
   
